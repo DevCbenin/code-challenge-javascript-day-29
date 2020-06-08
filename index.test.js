@@ -1,137 +1,226 @@
 
 
-const Convert = require('./index');
+const ComplexNumber = require('./index');
 
-describe('Converter', () => {
-  test('single bit one to decimal', () => {
-    expect(convert([1], 2, 10)).toEqual([1]);
+describe('Complex numbers', () => {
+  test('Real part of a purely real number', () => {
+    const expected = 1;
+    const actual = new ComplexNumber(1, 0).real;
+
+    expect(actual).toEqual(expected);
   });
 
-  test('binary to single decimal', () => {
-    expect(convert([1, 0, 1], 2, 10)).toEqual([5]);
+  xtest('Real part of a purely imaginary number', () => {
+    const expected = 0;
+    const actual = new ComplexNumber(0, 1).real;
+
+    expect(actual).toEqual(expected);
   });
 
-  test('single decimal to binary', () => {
-    expect(convert([5], 10, 2)).toEqual([1, 0, 1]);
+  xtest('Real part of a number with real and imaginary part', () => {
+    const expected = 1;
+    const actual = new ComplexNumber(1, 2).real;
+
+    expect(actual).toEqual(expected);
   });
 
-  test('binary to multiple decimal', () => {
-    expect(convert([1, 0, 1, 0, 1, 0], 2, 10)).toEqual([4, 2]);
+  xtest('Imaginary part of a purely real number', () => {
+    const expected = 0;
+    const actual = new ComplexNumber(1, 0).imag;
+
+    expect(actual).toEqual(expected);
   });
 
-  test('decimal to binary', () => {
-    expect(convert([4, 2], 10, 2)).toEqual([1, 0, 1, 0, 1, 0]);
+  xtest('Imaginary part of a purely imaginary number', () => {
+    const expected = 1;
+    const actual = new ComplexNumber(0, 1).imag;
+
+    expect(actual).toEqual(expected);
   });
 
-  test('trinary to hexadecimal', () => {
-    expect(convert([1, 1, 2, 0], 3, 16)).toEqual([2, 10]);
+  xtest('Imaginary part of a number with real and imaginary part', () => {
+    const expected = 2;
+    const actual = new ComplexNumber(1, 2).imag;
+
+    expect(actual).toEqual(expected);
   });
 
-  test('hexadecimal to trinary', () => {
-    expect(convert([2, 10], 16, 3)).toEqual([1, 1, 2, 0]);
+  xtest('Add purely real numbers', () => {
+    const expected = new ComplexNumber(3, 0);
+    const actual = new ComplexNumber(1, 0).add(new ComplexNumber(2, 0));
+
+    expect(actual).toEqual(expected);
   });
 
-  test('15-bit integer', () => {
-    expect(convert([3, 46, 60], 97, 73)).toEqual([6, 10, 45]);
+  xtest('Add purely imaginary numbers', () => {
+    const expected = new ComplexNumber(0, 3);
+    const actual = new ComplexNumber(0, 1).add(new ComplexNumber(0, 2));
+
+    expect(actual).toEqual(expected);
   });
 
-  test('empty list', () => {
-    expect(() => {
-      convert([], 2, 10);
-    }).toThrow(new Error('Input has wrong format'));
+  xtest('Add numbers with real and imaginary part', () => {
+    const expected = new ComplexNumber(4, 6);
+    const actual = new ComplexNumber(1, 2).add(new ComplexNumber(3, 4));
+
+    expect(actual).toEqual(expected);
   });
 
-  test('single zero', () => {
-    expect(convert([0], 10, 2)).toEqual([0]);
+  xtest('Subtract purely real numbers', () => {
+    const expected = new ComplexNumber(-1, 0);
+    const actual = new ComplexNumber(1, 0).sub(new ComplexNumber(2, 0));
+
+    expect(actual).toEqual(expected);
   });
 
-  test('multiple zeros', () => {
-    expect(() => {
-      convert([0, 0, 0], 10, 2);
-    }).toThrow(new Error('Input has wrong format'));
+  xtest('Subtract purely imaginary numbers', () => {
+    const expected = new ComplexNumber(0, -1);
+    const actual = new ComplexNumber(0, 1).sub(new ComplexNumber(0, 2));
+
+    expect(actual).toEqual(expected);
   });
 
-  test('leading zeros', () => {
-    expect(() => {
-      convert([0, 6, 0], 7, 10);
-    }).toThrow(new Error('Input has wrong format'));
+  xtest('Subtract numbers with real and imaginary part', () => {
+    const expected = new ComplexNumber(-2, -2);
+    const actual = new ComplexNumber(1, 2).sub(new ComplexNumber(3, 4));
+
+    expect(actual).toEqual(expected);
   });
 
-  test('negative digit', () => {
-    expect(() => {
-      convert([1, -1, 1, 0, 1, 0], 2, 10);
-    }).toThrow(new Error('Input has wrong format'));
+  xtest('Multiply purely real numbers', () => {
+    const expected = new ComplexNumber(2, 0);
+    const actual = new ComplexNumber(1, 0).mul(new ComplexNumber(2, 0));
+
+    expect(actual).toEqual(expected);
   });
 
-  test('invalid positive digit', () => {
-    expect(() => {
-      convert([1, 2, 1, 0, 1, 0], 2, 10);
-    }).toThrow(new Error('Input has wrong format'));
+  xtest('Multiply imaginary unit', () => {
+    const expected = new ComplexNumber(-1, 0);
+    const actual = new ComplexNumber(0, 1).mul(new ComplexNumber(0, 1));
+
+    expect(actual).toEqual(expected);
   });
 
-  test('first base is one', () => {
-    expect(() => {
-      convert([], 1, 10);
-    }).toThrow(new Error('Wrong input base'));
+  xtest('Multiply purely imaginary numbers', () => {
+    const expected = new ComplexNumber(-2, 0);
+    const actual = new ComplexNumber(0, 1).mul(new ComplexNumber(0, 2));
+
+    expect(actual).toEqual(expected);
   });
 
-  test('second base is one', () => {
-    expect(() => {
-      convert([1, 0, 1, 0, 1, 0], 2, 1);
-    }).toThrow(new Error('Wrong output base'));
+  xtest('Multiply numbers with real and imaginary part', () => {
+    const expected = new ComplexNumber(-5, 10);
+    const actual = new ComplexNumber(1, 2).mul(new ComplexNumber(3, 4));
+
+    expect(actual).toEqual(expected);
   });
 
-  test('first base is zero', () => {
-    expect(() => {
-      convert([], 0, 10);
-    }).toThrow(new Error('Wrong input base'));
+  xtest('Divide purely real numbers', () => {
+    const expected = new ComplexNumber(0.5, 0);
+    const actual = new ComplexNumber(1, 0).div(new ComplexNumber(2, 0));
+
+    expect(actual).toEqual(expected);
   });
 
-  test('second base is zero', () => {
-    expect(() => {
-      convert([7], 10, 0);
-    }).toThrow(new Error('Wrong output base'));
+  xtest('Divide purely imaginary numbers', () => {
+    const expected = new ComplexNumber(0.5, 0);
+    const actual = new ComplexNumber(0, 1).div(new ComplexNumber(0, 2));
+
+    expect(actual).toEqual(expected);
   });
 
-  test('first base is negative', () => {
-    expect(() => {
-      convert([1], -2, 10);
-    }).toThrow(new Error('Wrong input base'));
+  xtest('Divide numbers with real and imaginary part', () => {
+    const expected = new ComplexNumber(0.44, 0.08);
+    const actual = new ComplexNumber(1, 2).div(new ComplexNumber(3, 4));
+
+    expect(actual).toEqual(expected);
   });
 
-  test('second base is negative', () => {
-    expect(() => {
-      convert([1], 2, -7);
-    }).toThrow(new Error('Wrong output base'));
+  xtest('Absolute value of a positive purely real number', () => {
+    const expected = 5;
+    const actual = new ComplexNumber(5, 0).abs;
+
+    expect(actual).toEqual(expected);
   });
 
-  test('both bases are negative', () => {
-    expect(() => {
-      convert([1], -2, -7);
-    }).toThrow(new Error('Wrong input base'));
+  xtest('Absolute value of a negative purely real number', () => {
+    const expected = 5;
+    const actual = new ComplexNumber(-5, 0).abs;
+
+    expect(actual).toEqual(expected);
   });
 
-  test('missing input base throws an error', () => {
-    expect(() => {
-      convert([0]);
-    }).toThrow(new Error('Wrong input base'));
+  xtest('Absolute value of a purely imaginary number with positive imaginary part', () => {
+    const expected = 5;
+    const actual = new ComplexNumber(0, 5).abs;
+
+    expect(actual).toEqual(expected);
   });
 
-  test('wrong input_base base not integer', () => {
-    expect(() => {
-      convert([0], 2.5);
-    }).toThrow(new Error('Wrong input base'));
+  xtest('Absolute value of a purely imaginary number with negative imaginary part', () => {
+    const expected = 5;
+    const actual = new ComplexNumber(0, -5).abs;
+
+    expect(actual).toEqual(expected);
   });
 
-  test('missing output base throws an error', () => {
-    expect(() => {
-      convert([0], 2);
-    }).toThrow(new Error('Wrong output base'));
+  xtest('Absolute value of a number with real and imaginary part', () => {
+    const expected = 5;
+    const actual = new ComplexNumber(3, 4).abs;
+
+    expect(actual).toEqual(expected);
   });
 
-  test('wrong output_base base not integer', () => {
-    expect(() => {
-      convert([0], 3, 2.5);
-    }).toThrow(new Error('Wrong output base'));
+  xtest('Conjugate a purely real number', () => {
+    const expected = new ComplexNumber(5, 0);
+    const actual = new ComplexNumber(5, 0).conj;
+
+    expect(actual).toEqual(expected);
+  });
+
+  xtest('Conjugate a purely imaginary number', () => {
+    const expected = new ComplexNumber(0, -5);
+    const actual = new ComplexNumber(0, 5).conj;
+
+    expect(actual).toEqual(expected);
+  });
+
+  xtest('Conjugate a number with real and imaginary part', () => {
+    const expected = new ComplexNumber(1, -1);
+    const actual = new ComplexNumber(1, 1).conj;
+
+    expect(actual).toEqual(expected);
+  });
+
+  xtest('Euler\'s identity/formula', () => {
+    const expected = new ComplexNumber(-1, 0);
+    const actual = new ComplexNumber(0, Math.PI).exp;
+
+    expect(actual.real).toBeCloseTo(expected.real);
+    expect(actual.imag).toBeCloseTo(expected.imag);
+  });
+
+  xtest('Exponential of 0', () => {
+    const expected = new ComplexNumber(1, 0);
+    const actual = new ComplexNumber(0, 0).exp;
+
+    expect(actual.real).toBeCloseTo(expected.real);
+    expect(actual.imag).toBeCloseTo(expected.imag);
+  });
+
+  xtest('Exponential of a purely real number', () => {
+    const expected = new ComplexNumber(Math.E, 0);
+    const actual = new ComplexNumber(1, 0).exp;
+
+    expect(actual.real).toBeCloseTo(expected.real);
+    expect(actual.imag).toBeCloseTo(expected.imag);
+  });
+
+  xtest('Exponential of a number with real and imaginary part', () => {
+    const expected = new ComplexNumber(-2, 0);
+    const actual = new ComplexNumber(Math.LN2, Math.PI).exp;
+
+    expect(actual.real).toBeCloseTo(expected.real);
+    expect(actual.imag).toBeCloseTo(expected.imag);
   });
 });
