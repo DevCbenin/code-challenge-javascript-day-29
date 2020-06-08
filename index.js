@@ -1,6 +1,6 @@
 
-class Converter {
+class ComplexNumber {
 //type code here
 }
 
-module.exports = Converter
+module.exports = ComplexNumber
