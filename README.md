@@ -1,35 +1,32 @@
-# All Your Base
+# Complex Numbers
 
-Convert a number, represented as a sequence of digits in one base, to any other base.
+A complex number is a number in the form `a + b * i` where `a` and `b` are real and `i` satisfies `i^2 = -1`.
 
-Implement general base conversion. Given a number in base **a**,
-represented as a sequence of digits, convert it to base **b**.
+`a` is called the real part and `b` is called the imaginary part of `z`.
+The conjugate of the number `a + b * i` is the number `a - b * i`.
+The absolute value of a complex number `z = a + b * i` is a real number `|z| = sqrt(a^2 + b^2)`. The square of the absolute value `|z|^2` is the result of multiplication of `z` by its complex conjugate.
 
-## Note
+The sum/difference of two complex numbers involves adding/subtracting their real and imaginary parts separately:
+`(a + i * b) + (c + i * d) = (a + c) + (b + d) * i`,
+`(a + i * b) - (c + i * d) = (a - c) + (b - d) * i`.
 
-- Try to implement the conversion yourself.
-  Do not use something else to perform the conversion for you.
+Multiplication result is by definition
+`(a + i * b) * (c + i * d) = (a * c - b * d) + (b * c + a * d) * i`.
 
-## About [Positional Notation](https://en.wikipedia.org/wiki/Positional_notation)
+The reciprocal of a non-zero complex number is
+`1 / (a + i * b) = a/(a^2 + b^2) - b/(a^2 + b^2) * i`.
 
-In positional notation, a number in base **b** can be understood as a linear
-combination of powers of **b**.
+Dividing a complex number `a + i * b` by another `c + i * d` gives:
+`(a + i * b) / (c + i * d) = (a * c + b * d)/(c^2 + d^2) + (b * c - a * d)/(c^2 + d^2) * i`.
 
-The number 42, *in base 10*, means:
+Raising e to a complex exponent can be expressed as `e^(a + i * b) = e^a * e^(i * b)`, the last term of which is given by Euler's formula `e^(i * b) = cos(b) + i * sin(b)`.
 
-(4 * 10^1) + (2 * 10^0)
+Implement the following operations:
+ - addition, subtraction, multiplication and division of two complex numbers,
+ - conjugate, absolute value, exponent of a given complex number.
 
-The number 101010, *in base 2*, means:
 
-(1 * 2^5) + (0 * 2^4) + (1 * 2^3) + (0 * 2^2) + (1 * 2^1) + (0 * 2^0)
-
-The number 1120, *in base 3*, means:
-
-(1 * 3^3) + (1 * 3^2) + (2 * 3^1) + (0 * 3^0)
-
-I think you got the idea!
-
-*Yes. Those three numbers above are exactly the same. Congratulations!*
+Assume the programming language you are using does not have an implementation of complex numbers.
 
 ## Requirements
 
